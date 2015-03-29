@@ -58,15 +58,15 @@ splitDigits :: [Char] -> [Integer]
 splitDigits = map (fromIntegral .  digitToInt)
 
 joinIntegers :: [Integer] -> [Char]
-joinIntegers xs = filter (/= ',') $ init $ tail $ show xs
+joinIntegers = filter (/= ',') . init . tail . show
 
 sumDigits :: [Integer] -> Integer
-sumDigits xs = sum $ splitDigits (joinIntegers xs)
+sumDigits = sum . splitDigits . joinIntegers
 
 -- Exercise 1.4
 
 validate :: Integer -> Bool
-validate n = mod (sumDigits $ doubleEveryOther $ toDigits n) 10 == 0
+validate = (==0) . flip mod 10 . sumDigits . doubleEveryOther . toDigits
 
 -- Exercise 1.5
 
