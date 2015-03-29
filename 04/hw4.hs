@@ -4,11 +4,11 @@ module Hw4 where
 fun1 :: [Integer] -> Integer
 fun1 [] = 1
 fun1 (x:xs)
-     | even x    = (x - 2) * fun1 xs
-     | otherwise = fun1 xs
+  | even x    = (x - 2) * fun1 xs
+  | otherwise = fun1 xs
 
 fun1' :: [Integer] -> Integer
-fun1' =   product . map (flip (-) 2) . filter even
+fun1' = product . map (flip (-) 2) . filter even
 
 fun2 :: Integer -> Integer
 fun2 1 = 0
@@ -51,6 +51,7 @@ map' f = foldr ((:) . f) []
 
 myFoldl :: (a -> b -> a) -> a -> [b] -> a
 myFoldl f b xs = foldr (\x a b -> a (f b x)) id xs b
+
 
 -- Exercise 4
 sieveSundaram :: Integer -> [Integer]
