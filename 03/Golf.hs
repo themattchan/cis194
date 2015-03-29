@@ -1,28 +1,29 @@
 module Golf where
-import Control.Lens
-import Data.List (sort)
-import Data.Bool (bool)
+import Data.List
 
 skips :: [a] -> [[a]]
-skips [] = []
-skips all@(_:xs) = all : (skips xs)
+skips xs = map (map snd) $ zipWith filter filters (replicate len ids)
+  where len     = length xs
+        ids     = zip [1..len] xs
+        filters = map (\n (a,_) -> a `mod` n == 0) [1..len]
 
 localMaxima :: [Integer] -> [Integer]
-localMaxima = lm []
-
-lm :: Ord a => [a] -> [a] -> [a]
-lm maxs (a:b:c:xs)
-  | b > a && b > c = lm (maxs++[b]) (b:c:xs)
-  | otherwise = lm maxs (b:c:xs)
-lm maxs _ = maxs
+localMaxima xs = map (!!1) . filter maxs . take ((length xs) - 2) $ subs xs
+  where subs xs        = xs : subs (tail xs)
+        maxs (x:y:z:_) = y > x && y > z
 
 histogram :: [Integer] -> String
-histogram xs = hist (sort xs) 0 0 0 ["          \n"]
+histogram = (++ fmt) . concatMap toStr . reverse . gos . assoc
+  where fmt = "==========\n0123456789\n"
 
-hist :: [Integer] -> Int -> Int -> Int -> [String] -> String
-hist [] _ _ _ out = concat $ reverse $ "==========\n0123456789\n" : out
-hist (x:xs) h cur prev out =
-  let xint = fromIntegral x
-      hn   = bool (h + 1) 0 $ prev < xint
-      outn = bool out (out ++ ["          \n"]) $ prev == xint
-  in hist xs hn cur xint (outn & ix hn . ix xint .~ '*')
+assoc :: (Ord a) => [a] -> [(a,Int)]
+assoc = map (\x -> (head x, length x)) . group . sort
+
+gos xs = if all ((==0) . snd) xs then []
+         else xs : gos (map (\(n,c) -> (n, if c > 0 then c-1 else c)) xs)
+
+toStr xs = (++"\n") $ concatMap f [0..9]
+  where f x = case lookup x xs of
+                Just 0  -> " "
+                Just _  -> "*"
+                Nothing -> " "
