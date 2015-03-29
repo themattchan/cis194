@@ -55,3 +55,6 @@ myFoldl f b xs = foldr (\x a b -> a (f b x)) id xs b
 -- Exercise 4
 sieveSundaram :: Integer -> [Integer]
 sieveSundaram = undefined
+
+cartProd :: [a] -> [b] -> [(a,b)]
+cartProd xs ys = [(x,y) | x <- xs, y <- ys]
