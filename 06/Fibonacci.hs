@@ -2,6 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-missing-methods #-}
 {-@ LIQUID "--no-termination" @-}
 module Fibonacci where
+import Data.List
 
 -- Exercise 1
 fib :: Integer -> Integer
@@ -58,6 +59,7 @@ instance Num (Stream Integer) where
   fromInteger = flip Stream (streamRepeat 0)
   negate      = streamMap negate
   (+)         = streamZipWith (+)
+
   (*) (Stream a as') bs@(Stream b bs') =
     Stream (a*b) $ (+) (streamMap (*a) bs') (as' * bs)
 
@@ -71,7 +73,21 @@ fibs3 = x / (1 - x - x^2)
 -- Exercise 7
 newtype Matrix = Matrix (Integer, Integer, Integer, Integer)
 
+map4Tup :: (a -> b) -> (a,a,a,a) -> (b,b,b,b)
+map4Tup f (a,b,c,d) = (f a, f b, f c, f d)
+
+instance Show Matrix where
+  show (Matrix (a,b,c,d)) =
+    "[ " ++ show a ++ " " ++ show b ++ " ]\n" ++
+    "[ " ++ show c ++ " " ++ show d ++ " ]"
+
 instance Num Matrix where
+  fromInteger n = Matrix (n,n,n,n)
+  negate (Matrix a) = Matrix $ map4Tup negate a
+
+  (+) (Matrix a) (Matrix b) =
+    Matrix . map4Tup sum $ unzip4 [a,b]
+
   (*) (Matrix (a,b,c,d)) (Matrix (e,f,g,h)) =
     Matrix (a*e+b*g, a*f+b*h, c*e+d*g, c*f+d*h)
 
