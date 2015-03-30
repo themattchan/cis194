@@ -95,6 +95,9 @@ instance Num Matrix where
   (*) (Matrix (a,b,c,d)) (Matrix (e,f,g,h)) =
     Matrix (a*e+b*g, a*f+b*h, c*e+d*g, c*f+d*h)
 
+scale :: Integer -> Matrix -> Matrix
+scale n (Matrix m) = Matrix $ mapTup4 (*n) m
+
 fib4 :: Integer -> Integer
 fib4 0 = 0
 fib4 n = snd $ f1^n
