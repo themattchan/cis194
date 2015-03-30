@@ -74,8 +74,8 @@ fibs3 = x / (1 - x - x^2)
 newtype Matrix = Matrix (Integer, Integer, Integer, Integer)
                deriving (Show, Eq)
 
-to4Tup  a                   = (a,a,a,a)
-map4Tup f         (a,b,c,d) = (f a, f b, f c, f d)
+toTup4  a                   = (a,a,a,a)
+mapTup4 f         (a,b,c,d) = (f a, f b, f c, f d)
 zipApp4 (f,g,h,i) (a,b,c,d) = (f a, g b, h c, i d)
 
 {-
@@ -86,11 +86,11 @@ instance Show Matrix where
 -}
 
 instance Num Matrix where
-  fromInteger       = Matrix . to4Tup
-  negate (Matrix a) = Matrix $ map4Tup negate a
+  fromInteger       = Matrix . toTup4
+  negate (Matrix a) = Matrix $ mapTup4 negate a
 
   (+) (Matrix a) (Matrix b) =
-    Matrix $ map4Tup sum (unzip4 [a,b])
+    Matrix $ mapTup4 sum (unzip4 [a,b])
 
   (*) (Matrix (a,b,c,d)) (Matrix (e,f,g,h)) =
     Matrix (a*e+b*g, a*f+b*h, c*e+d*g, c*f+d*h)
