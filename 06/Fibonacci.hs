@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-missing-methods #-}
 {-@ LIQUID "--no-termination" @-}
 module Fibonacci where
-import Data.List
+import Data.List (unzip4)
 
 -- Exercise 1
 fib :: Integer -> Integer
