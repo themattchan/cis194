@@ -75,8 +75,8 @@ newtype Matrix = Matrix (Integer, Integer, Integer, Integer)
                deriving (Show, Eq)
 
 to4Tup  a                   = (a,a,a,a)
+map4Tup f         (a,b,c,d) = (f a, f b, f c, f d)
 zipApp4 (f,g,h,i) (a,b,c,d) = (f a, g b, h c, i d)
-map4Tup f (a,b,c,d)         = (f a, f b, f c, f d)
 
 {-
 instance Show Matrix where
