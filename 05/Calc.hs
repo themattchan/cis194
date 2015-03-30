@@ -12,7 +12,7 @@ eval (Mul e1 e2) = eval e1 * eval e2
 
 -- Exercise 2
 evalStr :: String -> Maybe Integer
-evalStr s = parseExp Lit Add Mul s >>= return . eval
+evalStr = fmap eval . parseExp Lit Add Mul
 
 -- Exercise 3
 class Expr a where
