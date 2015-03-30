@@ -25,7 +25,7 @@ rows :: Assoc a -> [Assoc a]
 rows xs = if all ((==0) . snd) xs then []
           else xs : rows (map (\(n,c) -> (n, if c > 0 then c-1 else c)) xs)
 
-toStr :: (Num a, Eq a, Enum a) => Assoc a -> String
+toStr :: Assoc Integer -> String
 toStr xs = (++"\n") $ concatMap f [0..9]
   where f x = case lookup x xs of
                 Just 0  -> " "
