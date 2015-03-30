@@ -86,7 +86,7 @@ instance Show Matrix where
 -}
 
 instance Num Matrix where
-  fromInteger = Matrix . to4Tup
+  fromInteger       = Matrix . to4Tup
   negate (Matrix a) = Matrix $ zipApp4 (to4Tup negate) a
 
   (+) (Matrix a) (Matrix b) =
