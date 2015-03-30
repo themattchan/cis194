@@ -6,7 +6,7 @@ import Control.Monad
 
 -- Exercise 1
 eval :: ExprT -> Integer
-eval (Lit a)     = a
+eval (Lit e)     = e
 eval (Add e1 e2) = eval e1 + eval e2
 eval (Mul e1 e2) = eval e1 * eval e2
 
