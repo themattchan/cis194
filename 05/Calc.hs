@@ -1,19 +1,22 @@
 {-# LANGUAGE TypeSynonymInstances, FlexibleInstances, OverlappingInstances #-}
 module Calc where
 import Control.Monad
+import qualified Data.Map as M
 
-import ExprT
+import qualified ExprT as E
+import qualified StackVM as S
+import qualified VarExprT as V
 import Parser
 
 -- Exercise 1
-eval :: ExprT -> Integer
-eval (Lit e)     = e
-eval (Add e1 e2) = eval e1 + eval e2
-eval (Mul e1 e2) = eval e1 * eval e2
+eval :: E.ExprT -> Integer
+eval (E.Lit e)     = e
+eval (E.Add e1 e2) = eval e1 + eval e2
+eval (E.Mul e1 e2) = eval e1 * eval e2
 
 -- Exercise 2
 evalStr :: String -> Maybe Integer
-evalStr = fmap eval . parseExp Lit Add Mul
+evalStr = fmap eval . parseExp E.Lit E.Add E.Mul
 
 -- Exercise 3
 class Expr a where
@@ -21,12 +24,12 @@ class Expr a where
   add :: a -> a -> a
   mul :: a -> a -> a
 
-instance Expr ExprT where
-  lit = Lit
-  add = Add
-  mul = Mul
+instance Expr E.ExprT where
+  lit = E.Lit
+  add = E.Add
+  mul = E.Mul
 
-reify :: ExprT -> ExprT
+reify :: E.ExprT -> E.ExprT
 reify = id
 
 -- Exercise 4
@@ -68,3 +71,37 @@ testInteger = testExp :: Maybe Integer
 testBool    = testExp :: Maybe Bool
 testMM      = testExp :: Maybe (MinMax Integer)
 testSat     = testExp :: Maybe (Mod7 Integer)
+
+-- Exercise 5
+instance Expr S.Program where
+  lit     = (:[]) . S.PushI
+  add x y = x ++ y ++ [S.Add]
+  mul x y = x ++ y ++ [S.Mul]
+
+compile :: String -> Maybe S.Program
+compile = parseExp lit add mul
+
+-- Exercise 6
+class HasVars a where
+  var :: String -> a
+
+instance Expr V.VarExprT where
+  lit = V.Lit
+  add = V.Add
+  mul = V.Mul
+
+instance HasVars V.VarExprT where
+  var = V.Var
+
+type Env = M.Map String Integer
+
+instance HasVars (Env -> Maybe Integer) where
+  var = M.lookup
+
+instance Expr (Env -> Maybe Integer) where
+  lit x   e = Just x
+  add a b e = liftM2 (+) (a e) (b e)
+  mul a b e = liftM2 (*) (a e) (b e)
+
+withVars :: [(String, Integer)] -> (Env -> Maybe Integer) -> Maybe Integer
+withVars vs exp = exp $ M.fromList vs
