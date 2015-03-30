@@ -1,4 +1,5 @@
 module Hw4 where
+import Data.List
 
 -- Exercise 1
 fun1 :: [Integer] -> Integer
@@ -17,7 +18,7 @@ fun2 n | even n = n + fun2 (n `div` 2)
 
 fun2' :: Integer -> Integer
 fun2' = sum . filter even . takeWhile (/= 1) . iterate f
-  where f x = if even x then x `div` 2 else 3*x+1
+  where f x = if even x then x `div` 2 else 3*x + 1
 
 
 -- Exercise 2
@@ -55,7 +56,5 @@ myFoldl f b xs = foldr (\x a b -> a (f b x)) id xs b
 
 -- Exercise 4
 sieveSundaram :: Integer -> [Integer]
-sieveSundaram = undefined
-
-cartProd :: [a] -> [b] -> [(a,b)]
-cartProd xs ys = [(x,y) | x <- xs, y <- ys]
+sieveSundaram n = map  ((+1) . (*2)) $ [1..n] \\ rm
+  where rm = filter (<= n) [x + y + 2*x*y | x<-[1..n], y<-[1..n], x <= y]
