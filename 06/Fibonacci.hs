@@ -23,7 +23,7 @@ streamToList :: Stream a -> [a]
 streamToList (Stream e s) = e : streamToList s
 
 instance Show a => Show (Stream a) where
-  show = (++",...]") . init . show . take 20 . streamToList
+  show = ("Stream "++) . (++",...") . init . tail. show . take 20 . streamToList
 
 -- Exercise 4
 streamRepeat :: a -> Stream a
