@@ -87,10 +87,10 @@ instance Show Matrix where
 
 instance Num Matrix where
   fromInteger       = Matrix . to4Tup
-  negate (Matrix a) = Matrix $ zipApp4 (to4Tup negate) a
+  negate (Matrix a) = Matrix $ map4Tup negate a
 
   (+) (Matrix a) (Matrix b) =
-    Matrix $ zipApp4 (to4Tup sum) (unzip4 [a,b])
+    Matrix $ map4Tup sum (unzip4 [a,b])
 
   (*) (Matrix (a,b,c,d)) (Matrix (e,f,g,h)) =
     Matrix (a*e+b*g, a*f+b*h, c*e+d*g, c*f+d*h)
