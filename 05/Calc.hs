@@ -1,8 +1,9 @@
 {-# LANGUAGE TypeSynonymInstances, FlexibleInstances, OverlappingInstances #-}
 module Calc where
+import Control.Monad
+
 import ExprT
 import Parser
-import Control.Monad
 
 -- Exercise 1
 eval :: ExprT -> Integer
