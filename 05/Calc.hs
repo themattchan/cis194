@@ -51,7 +51,7 @@ instance Monad Mod7 where
   Mod7 a >>= f = f a
 
 instance Expr (MinMax Integer) where
-  lit = MinMax
+  lit = return
   add = liftM2 max
   mul = liftM2 min
 
