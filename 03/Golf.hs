@@ -17,16 +17,16 @@ histogram :: [Integer] -> String
 histogram = (++ fmt) . concatMap show . reverse . rows . assoc
   where fmt = "==========\n0123456789\n"
 
-type Assoc = [(Integer, Int)]
+type AList = [(Integer, Int)]
 
-assoc :: [Integer] -> Assoc
+assoc :: [Integer] -> AList
 assoc = map (\x -> (head x, length x)) . group . sort
 
-rows :: Assoc -> [Assoc]
+rows :: AList -> [AList]
 rows xs = if all ((==0) . snd) xs then []
           else xs : rows (map (\(n,c) -> (n, if c > 0 then c-1 else c)) xs)
 
-instance Show Assoc where
+instance Show AList where
   show xs = (++"\n") $ concatMap f [0..9]
     where f x = case lookup x xs of
                   Just 0  -> " "
