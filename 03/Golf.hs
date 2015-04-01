@@ -14,7 +14,7 @@ localMaxima xs = map (!!1) . filter maxs . take ((length xs) - 2) $ subs xs
         maxs (x:y:z:_) = y > x && y > z
 
 histogram :: [Integer] -> String
-histogram = (++ fmt) . concatMap show . reverse . rows . assoc
+histogram = (++ fmt) . concatMap barRow . reverse . rows . assoc
   where fmt = "==========\n0123456789\n"
 
 type AList = [(Integer, Int)]
@@ -26,9 +26,8 @@ rows :: AList -> [AList]
 rows xs = if all ((==0) . snd) xs then []
           else xs : rows (map (\(n,c) -> (n, if c > 0 then c-1 else c)) xs)
 
-instance Show AList where
-  show xs = (++"\n") $ concatMap f [0..9]
-    where f x = case lookup x xs of
-                  Just 0  -> " "
-                  Just _  -> "*"
-                  Nothing -> " "
+barRow xs = (++"\n") $ concatMap f [0..9]
+  where f x = case lookup x xs of
+                Just 0  -> " "
+                Just _  -> "*"
+                Nothing -> " "
