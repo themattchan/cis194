@@ -14,13 +14,13 @@ localMaxima xs = map (!!1) . filter maxs . take ((length xs) - 2) $ subs xs
         maxs (x:y:z:_) = y > x && y > z
 
 histogram :: [Integer] -> String
-histogram = (++ fmt) . concatMap barRow . reverse . rows . assoc
+histogram = (++ fmt) . concatMap barRow . reverse . rows . toAList
   where fmt = "==========\n0123456789\n"
 
 type AList = [(Integer, Int)]
 
-assoc :: [Integer] -> AList
-assoc = map (\x -> (head x, length x)) . group . sort
+toAList :: [Integer] -> AList
+toAList = map (\x -> (head x, length x)) . group . sort
 
 rows :: AList -> [AList]
 rows xs = if all ((==0) . snd) xs then []
