@@ -9,7 +9,7 @@ skips xs = map (map snd) $ zipWith filter filters (replicate len ids)
         filters = map (\n (a,_) -> a `mod` n == 0) [1..len]
 
 localMaxima :: [Integer] -> [Integer]
-localMaxima xs = map (!!1) . filter maxs . take ((length xs) - 2) $ subs xs
+localMaxima xs = map (!! 1) . filter maxs . take ((length xs) - 2) $ subs xs
   where subs xs        = xs : subs (tail xs)
         maxs (x:y:z:_) = y > x && y > z
 
@@ -23,11 +23,10 @@ toAList :: [Integer] -> AList
 toAList = map (\x -> (head x, length x)) . group . sort
 
 rows :: AList -> [AList]
-rows xs = if all ((==0) . snd) xs then []
-          else xs : rows (map (\(n,c) -> (n, if c > 0 then c-1 else c)) xs)
+rows xs = if all ((<= 0) . snd) xs then []
+          else xs : rows (map (fmap pred) xs)
 
 barRow xs = (++"\n") $ concatMap f [0..9]
   where f x = case lookup x xs of
-                Just 0  -> " "
-                Just _  -> "*"
-                Nothing -> " "
+                Just n | n > 0 -> "*"
+                _              -> " "
