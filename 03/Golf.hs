@@ -26,6 +26,7 @@ rows :: AList -> [AList]
 rows xs = if all ((<= 0) . snd) xs then []
           else xs : rows (map (fmap pred) xs)
 
+barRow :: AList -> String
 barRow xs = (++"\n") $ concatMap f [0..9]
   where f x = case lookup x xs of
                 Just n | n > 0 -> "*"
