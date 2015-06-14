@@ -1,1 +1,0 @@
-{"status":"safe","types":{"8":{"13":{"ann":"(GHC.Show.Show VarExprT.VarExprT)","ident":"VarExprT.$fShowVarExprT","row":8,"col":13},"19":{"ann":"(GHC.Classes.Eq VarExprT.VarExprT)","ident":"VarExprT.$fEqVarExprT","row":8,"col":19}}},"errors":[]}

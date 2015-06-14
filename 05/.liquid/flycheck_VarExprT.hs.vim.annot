@@ -1,2 +1,0 @@
-8:13-8:17::VarExprT.$fShowVarExprT :: "(GHC.Show.Show VarExprT.VarExprT)"
-8:19-8:21::VarExprT.$fEqVarExprT :: "(GHC.Classes.Eq VarExprT.VarExprT)"

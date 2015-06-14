@@ -1,2 +1,0 @@
-6:13-6:17::ExprT.$fShowExprT :: "(GHC.Show.Show ExprT.ExprT)"
-6:19-6:21::ExprT.$fEqExprT :: "(GHC.Classes.Eq ExprT.ExprT)"
