@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<title>/Users/matt/Dropbox/cis194/07/flycheck_Sized.hs</title>
+</head>
+<head>
+<link type='text/css' rel='stylesheet' href='liquid.css' />
+</head>
+
+<body>
+<hr>
+Put mouse over identifiers to see inferred types
+<pre><span class=hs-linenum> 1: </span><span class='hs-comment'>{-# LANGUAGE GeneralizedNewtypeDeriving, FlexibleInstances #-}</span>
+<span class=hs-linenum> 2: </span><span class='hs-keyword'>module</span> <span class='hs-conid'>Sized</span> <span class='hs-keyword'>where</span>
+<span class=hs-linenum> 3: </span>
+<span class=hs-linenum> 4: </span><span class='hs-keyword'>import</span> <span class='hs-conid'>Data</span><span class='hs-varop'>.</span><span class='hs-conid'>Monoid</span>
+<span class=hs-linenum> 5: </span>
+<span class=hs-linenum> 6: </span><span class='hs-keyword'>newtype</span> <span class='hs-conid'>Size</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>Size</span> <span class='hs-conid'>Int</span>
+<span class=hs-linenum> 7: </span>  <span class='hs-keyword'>deriving</span> <span class='hs-layout'>(</span><a class=annot href="#"><span class=annottext>(GHC.Classes.Eq {lq_tmp_x3102 : Sized.Size^"lq_tmp_x3101" "lq_tmp_x245" | k_3100[VV#3099:=lq_tmp_x3102][lq_tmp_x3097:=fix##36#c#61##61##35#a1A3][lq_tmp_x3098:=fix##36#c#47##61##35#a1Ac]})</span><span class='hs-conid'>Eq</span></a><span class='hs-layout'>,</span> <a class=annot href="#"><span class=annottext>(GHC.Classes.Ord {lq_tmp_x3172 : Sized.Size^"lq_tmp_x3171" "lq_tmp_x296" | k_3170[VV#3169:=lq_tmp_x3172][lq_tmp_x3161:=fix#Sized.#36#fEqSize#35#r16l][lq_tmp_x3162:=fix##36#ccompare#35#a1An][lq_tmp_x3163:=fix##36#c#60##35#a1Aw][lq_tmp_x3164:=fix##36#c#62##61##35#a1AF][lq_tmp_x3165:=fix##36#c#62##35#a1AO][lq_tmp_x3166:=fix##36#c#60##61##35#a1AX][lq_tmp_x3167:=fix##36#cmax#35#a1B6][lq_tmp_x3168:=fix##36#cmin#35#a1Bf]})</span><span class='hs-conid'>Ord</span></a><span class='hs-layout'>,</span> <a class=annot href="#"><span class=annottext>(GHC.Show.Show Sized.Size)</span><span class='hs-conid'>Show</span></a><span class='hs-layout'>,</span> <a class=annot href="#"><span class=annottext>(GHC.Num.Num Sized.Size^"lq_tmp_x1552" "lq_tmp_x370")</span><span class='hs-conid'>Num</span></a><span class='hs-layout'>)</span>
+<span class=hs-linenum> 8: </span>
+<span class=hs-linenum> 9: </span><span class='hs-definition'>getSize</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>Size</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Int</span>
+<span class=hs-linenum>10: </span><a class=annot href="#"><span class=annottext>lq_tmp_x720:Sized.Size^"lq_tmp_x383" -&gt; GHC.Types.Int^"lq_tmp_x384"</span><span class='hs-definition'>getSize</span></a> <span class='hs-layout'>(</span><span class='hs-conid'>Size</span> <span class='hs-varid'>i</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>i</span>
+<span class=hs-linenum>11: </span>
+<span class=hs-linenum>12: </span><span class='hs-keyword'>class</span> <span class='hs-conid'>Sized</span> <span class='hs-varid'>a</span> <span class='hs-keyword'>where</span>
+<span class=hs-linenum>13: </span>  <span class='hs-varid'>size</span> <span class='hs-keyglyph'>::</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Size</span>
+<span class=hs-linenum>14: </span>
+<span class=hs-linenum>15: </span><span class='hs-keyword'>instance</span> <a class=annot href="#"><span class=annottext>(Sized.Sized Sized.Size^"lq_tmp_x812" "lq_tmp_x378")</span><span class='hs-conid'>Sized</span></a> <span class='hs-conid'>Size</span> <span class='hs-keyword'>where</span>
+<span class=hs-linenum>16: </span>  <a class=annot href="#"><span class=annottext>lq_tmp_x800:{lq_tmp_x804 : Sized.Size^"lq_tmp_x803" | k_802[VV#801:=lq_tmp_x804]}
+-&gt; {lq_tmp_x804 : Sized.Size^"lq_tmp_x803" | k_802[VV#801:=lq_tmp_x804] &amp;&amp; lq_tmp_x804 == lq_tmp_x800}</span><span class='hs-varid'>size</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>lq_tmp_x800:{lq_tmp_x804 : Sized.Size^"lq_tmp_x803" | k_802[VV#801:=lq_tmp_x804]}
+-&gt; {lq_tmp_x804 : Sized.Size^"lq_tmp_x803" | k_802[VV#801:=lq_tmp_x804] &amp;&amp; lq_tmp_x804 == lq_tmp_x800}</span><span class='hs-varid'>id</span></a>
+<span class=hs-linenum>17: </span>
+<span class=hs-linenum>18: </span><span class='hs-comment'>-- This instance means that things like</span>
+<span class=hs-linenum>19: </span><span class='hs-comment'>--   (Foo, Size)</span>
+<span class=hs-linenum>20: </span><span class='hs-comment'>--   (Foo, (Bar, Size))</span>
+<span class=hs-linenum>21: </span><span class='hs-comment'>--   ...</span>
+<span class=hs-linenum>22: </span><span class='hs-comment'>-- are all instances of Sized.</span>
+<span class=hs-linenum>23: </span><span class='hs-keyword'>instance</span> <a class=annot href="#"><span class=annottext>forall a b.
+(Sized.Sized [Contravariant]
+[] b) =&gt;
+(Sized.Sized (a, b))</span><span class='hs-conid'>Sized</span></a> <span class='hs-varid'>b</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-conid'>Sized</span> <span class='hs-layout'>(</span><span class='hs-varid'>a</span><span class='hs-layout'>,</span><span class='hs-varid'>b</span><span class='hs-layout'>)</span> <span class='hs-keyword'>where</span>
+<span class=hs-linenum>24: </span>  <a class=annot href="#"><span class=annottext>forall a b.
+(Sized.Sized [Contravariant]
+[] b) =&gt;
+lq_tmp_x820:{VV#831 : ({VV#821 : a^"lq_tmp_x823" | k_822}, {VV#824 : b^"lq_tmp_x826" | k_825})&lt;\lq_tmp_x827 VV -&gt; k_829&gt;^"lq_tmp_x833" | k_832}
+-&gt; {VV#834 : Sized.Size^"lq_tmp_x836" | k_835}</span><span class='hs-varid'>size</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>lq_tmp_x902:b^"lq_tmp_x843" "lq_tmp_x249"
+-&gt; Sized.Size^"lq_tmp_x250"</span><span class='hs-varid'>size</span></a> <a class=annot href="#"><span class=annottext>lq_tmp_x865:(lq_tmp_x863:{VV#868 : b^"lq_tmp_x870" | k_869}
+             -&gt; {lq_tmp_x874 : Sized.Size^"lq_tmp_x873" "lq_tmp_x897" | k_872[VV#871:=lq_tmp_x874] &amp;&amp; k_896[lq_tmp_x898:=lq_tmp_x863][VV#895:=lq_tmp_x874]})
+-&gt; lq_tmp_x866:(lq_tmp_x864:{lq_tmp_x889 : ({VV#875 : a^"lq_tmp_x877" | k_876[VV#885:=lq_tmp_x889]}, {VV#878 : b^"lq_tmp_x880" | k_879[VV#885:=lq_tmp_x889]})&lt;\lq_tmp_x888 VV -&gt; k_883[lq_tmp_x881:=lq_tmp_x888]&gt;^"lq_tmp_x887" | k_886[VV#885:=lq_tmp_x889]}
+                -&gt; {VV#868 : b^"lq_tmp_x870" "lq_tmp_x892" | k_869 &amp;&amp; k_891[lq_tmp_x893:=lq_tmp_x864][VV#890:=VV#868]})
+-&gt; lq_tmp_x867:{lq_tmp_x889 : ({VV#875 : a^"lq_tmp_x877" | k_876[VV#885:=lq_tmp_x889]}, {VV#878 : b^"lq_tmp_x880" | k_879[VV#885:=lq_tmp_x889]})&lt;\lq_tmp_x888 VV -&gt; k_883[lq_tmp_x881:=lq_tmp_x888]&gt;^"lq_tmp_x887" | k_886[VV#885:=lq_tmp_x889]}
+-&gt; exists [z:{VV#868 : b^"lq_tmp_x870" "lq_tmp_x892" | k_869 &amp;&amp; k_891[lq_tmp_x893:=lq_tmp_x867][VV#890:=VV#868]}].{lq_tmp_x874 : Sized.Size^"lq_tmp_x873" "lq_tmp_x897" | k_872[VV#871:=lq_tmp_x874] &amp;&amp; k_896[lq_tmp_x898:=z][VV#895:=lq_tmp_x874]}</span><span class='hs-varop'>.</span></a> <a class=annot href="#"><span class=annottext>lq_tmp_x906:({VV#850 : a^"lq_tmp_x852" "lq_tmp_x6" | k_851[lq_tmp_x847:=lq_tmp_x904]}, {VV#853 : b^"lq_tmp_x855" "lq_tmp_x7" | k_854[lq_tmp_x847:=lq_tmp_x904]})&lt;\lq_tmp_x903 VV -&gt; True&gt;^"lq_tmp_x9"
+-&gt; {VV#853 : b^"lq_tmp_x855" "lq_tmp_x10" | k_854[lq_tmp_x849:=lq_tmp_x906]}</span><span class='hs-varid'>snd</span></a>
+<span class=hs-linenum>25: </span>
+<span class=hs-linenum>26: </span><span class='hs-keyword'>instance</span> <a class=annot href="#"><span class=annottext>(Data.Monoid.Monoid Sized.Size)</span><span class='hs-conid'>Monoid</span></a> <span class='hs-conid'>Size</span> <span class='hs-keyword'>where</span>
+<span class=hs-linenum>27: </span>  <a class=annot href="#"><span class=annottext>{VV#941 : Sized.Size^"lq_tmp_x943" | k_942}</span><span class='hs-varid'>mempty</span></a>  <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>lq_tmp_x953:GHC.Types.Int^"lq_tmp_x372" -&gt; Sized.Size^"lq_tmp_x373"</span><span class='hs-conid'>Size</span></a> <a class=annot href="#"><span class=annottext>{lq_tmp_x954 : GHC.Types.Int | lq_tmp_x954 == (0  :  int) &amp;&amp; lq_tmp_x954 == lq_anf__d1Eu}</span><span class='hs-num'>0</span></a>
+<span class=hs-linenum>28: </span>  <a class=annot href="#"><span class=annottext>lq_tmp_x1597:Sized.Size^"lq_tmp_x1599"
+-&gt; lq_tmp_x1598:Sized.Size^"lq_tmp_x1599"
+-&gt; {lq_tmp_x1600 : Sized.Size^"lq_tmp_x1599" | lq_tmp_x1600 == lq_tmp_x1597 + lq_tmp_x1598}</span><span class='hs-varid'>mappend</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>lq_tmp_x1597:Sized.Size^"lq_tmp_x1599"
+-&gt; lq_tmp_x1598:Sized.Size^"lq_tmp_x1599"
+-&gt; {lq_tmp_x1600 : Sized.Size^"lq_tmp_x1599" | lq_tmp_x1600 == lq_tmp_x1597 + lq_tmp_x1598}</span><span class='hs-layout'>(</span></a><span class='hs-varop'>+</span><span class='hs-layout'>)</span>
+</pre>
+</body>
+</html>

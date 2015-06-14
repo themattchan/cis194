@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<title>/Users/matt/Dropbox/cis194/07/flycheck_Buffer.hs</title>
+</head>
+<head>
+<link type='text/css' rel='stylesheet' href='liquid.css' />
+</head>
+
+<body>
+<hr>
+Put mouse over identifiers to see inferred types
+<pre><span class=hs-linenum> 1: </span><span class='hs-keyword'>module</span> <span class='hs-conid'>Buffer</span> <span class='hs-keyword'>where</span>
+<span class=hs-linenum> 2: </span>
+<span class=hs-linenum> 3: </span><span class='hs-comment'>-- Type class for data structures that can represent the text buffer</span>
+<span class=hs-linenum> 4: </span><span class='hs-comment'>-- of an editor.</span>
+<span class=hs-linenum> 5: </span>
+<span class=hs-linenum> 6: </span><span class='hs-keyword'>class</span> <span class='hs-conid'>Buffer</span> <span class='hs-varid'>b</span> <span class='hs-keyword'>where</span>
+<span class=hs-linenum> 7: </span>
+<span class=hs-linenum> 8: </span>  <span class='hs-comment'>-- | Convert a buffer to a String.</span>
+<span class=hs-linenum> 9: </span>  <span class='hs-varid'>toString</span> <span class='hs-keyglyph'>::</span> <span class='hs-varid'>b</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>String</span>
+<span class=hs-linenum>10: </span>
+<span class=hs-linenum>11: </span>  <span class='hs-comment'>-- | Create a buffer from a String.</span>
+<span class=hs-linenum>12: </span>  <span class='hs-varid'>fromString</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>String</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>b</span>
+<span class=hs-linenum>13: </span>
+<span class=hs-linenum>14: </span>  <span class='hs-comment'>-- | Extract the nth line (0-indexed) from a buffer.  Return Nothing</span>
+<span class=hs-linenum>15: </span>  <span class='hs-comment'>-- for out-of-bounds indices.</span>
+<span class=hs-linenum>16: </span>  <span class='hs-varid'>line</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>Int</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>b</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Maybe</span> <span class='hs-conid'>String</span>
+<span class=hs-linenum>17: </span>
+<span class=hs-linenum>18: </span>  <span class='hs-comment'>-- | @replaceLine n ln buf@ returns a modified version of @buf@,</span>
+<span class=hs-linenum>19: </span>  <span class='hs-comment'>--   with the @n@th line replaced by @ln@.  If the index is</span>
+<span class=hs-linenum>20: </span>  <span class='hs-comment'>--   out-of-bounds, the buffer should be returned unmodified.</span>
+<span class=hs-linenum>21: </span>  <span class='hs-varid'>replaceLine</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>Int</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>String</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>b</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>b</span>
+<span class=hs-linenum>22: </span>
+<span class=hs-linenum>23: </span>  <span class='hs-comment'>-- | Compute the number of lines in the buffer.</span>
+<span class=hs-linenum>24: </span>  <span class='hs-varid'>numLines</span> <span class='hs-keyglyph'>::</span> <span class='hs-varid'>b</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Int</span>
+<span class=hs-linenum>25: </span>
+<span class=hs-linenum>26: </span>  <span class='hs-comment'>-- | Compute the value of the buffer, i.e. the amount someone would</span>
+<span class=hs-linenum>27: </span>  <span class='hs-comment'>--   be paid for publishing the contents of the buffer.</span>
+<span class=hs-linenum>28: </span>  <span class='hs-varid'>value</span> <span class='hs-keyglyph'>::</span> <span class='hs-varid'>b</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Int</span>
+</pre>
+</body>
+</html>

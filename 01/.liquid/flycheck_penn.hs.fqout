@@ -1,0 +1,146 @@
+UNSAT [1130,231,223,154,141,136,99] 
+ 
+ 
+ 
+solution: k_12356 := [((VV#12355 = GHC.Prim.void##0l), Cmp1(VV#12355, GHC.Prim.void##0l))] 
+
+solution: k_14358 := [] 
+
+solution: k_14372 := [((len([VV#14371]) >= 0), ListZ1(VV#14371))] 
+
+solution: k_14386 := [] 
+
+solution: k_14400 := [] 
+
+solution: k_14412 := [((VV#14411 != lq_tmp_x14414), Cmp6(VV#14411, lq_tmp_x14414));((len([VV#14411]) < len([lq_tmp_x14414])), CmpLen1(VV#14411, lq_tmp_x14414));((len([VV#14411]) >= 0), ListZ1(VV#14411))] 
+
+solution: k_14456 := [((len([VV#14455]) >= 0), ListZ1(VV#14455))] 
+
+solution: k_14484 := [] 
+
+solution: k_14498 := [((len([VV#14497]) >= 0), ListZ1(VV#14497))] 
+
+solution: k_14587 := [] 
+
+solution: k_14886 := [] 
+
+solution: k_14890 := [((VV#14889 > ds_d2vk), Cmp10(VV#14889, ds_d2vk));((VV#14889 > ds_d2vk), Cmp7(VV#14889, ds_d2vk));((VV#14889 > 0), CmpZ2(VV#14889));((VV#14889 = lq_anf__d2AV), Cmp1(VV#14889, lq_anf__d2AV));((VV#14889 = lq_anf__d2AV), Cmp3(VV#14889, lq_anf__d2AV))] 
+
+solution: k_14925 := [] 
+
+solution: k_14939 := [] 
+
+solution: k_14946 := [] 
+
+solution: k_14957 := [] 
+
+solution: k_14969 := [] 
+
+solution: k_15010 := [] 
+
+solution: k_15017 := [] 
+
+solution: k_15021 := [] 
+
+solution: k_15032 := [] 
+
+solution: k_15037 := [] 
+
+solution: k_15073 := [] 
+
+solution: k_15081 := [] 
+
+solution: k_15085 := [] 
+
+solution: k_15128 := [] 
+
+solution: k_1513 := [((VV#1512 = GHC.Prim.void##0l), Cmp1(VV#1512, GHC.Prim.void##0l))] 
+
+solution: k_15287 := [((VV#15286 = GHC.Prim.void##0l), Cmp1(VV#15286, GHC.Prim.void##0l))] 
+
+solution: k_15410 := [((VV#15409 = GHC.Prim.void##0l), Cmp1(VV#15409, GHC.Prim.void##0l))] 
+
+solution: k_15498 := [((VV#15497 = GHC.Prim.void##0l), Cmp1(VV#15497, GHC.Prim.void##0l))] 
+
+//QUALIFIERS 
+
+qualif Bot(v:@(0)):(0 = 1)
+
+qualif Bot0(v:obj):(0 = 1)
+qualif Bot1(v:bool):(0 = 1)
+
+qualif Bot2(v:int):(0 = 1)
+qualif Cmp(v:int, ~A:int):(v <= ~A)
+
+qualif Cmp0(v:int, ~A:int):(v >= ~A)
+qualif Cmp1(v:@(0), ~A:@(0)):(v = ~A)
+
+qualif Cmp10(v:int, ~A:int):(v > ~A)
+qualif Cmp2(v:@(0), ~A:@(0)):(v >= ~A)
+
+qualif Cmp3(v:int, ~A:int):(v = ~A)
+qualif Cmp4(v:int, ~A:int):(v < ~A)
+
+qualif Cmp5(v:int, ~A:int):(v != ~A)
+qualif Cmp6(v:@(0), ~A:@(0)):(v != ~A)
+
+qualif Cmp7(v:@(0), ~A:@(0)):(v > ~A)
+qualif Cmp8(v:@(0), ~A:@(0)):(v <= ~A)
+
+qualif Cmp9(v:@(0), ~A:@(0)):(v < ~A)
+
+qualif CmpLen(v:FAppTy (List ) @(0), ~A:FAppTy (List ) @(1)):(len([v]) <= len([~A]))
+
+qualif CmpLen0(v:FAppTy (List ) @(0), ~A:FAppTy (List ) @(1)):(len([v]) >= len([~A]))
+
+qualif CmpLen1(v:FAppTy (List ) @(0), ~A:FAppTy (List ) @(1)):(len([v]) < len([~A]))
+
+qualif CmpLen2(v:FAppTy (List ) @(0), ~A:FAppTy (List ) @(1)):(len([v]) > len([~A]))
+
+qualif CmpLen3(v:FAppTy (List ) @(0), ~A:FAppTy (List ) @(1)):(len([v]) = len([~A]))
+
+qualif CmpZ(v:@(0)):(v >= 0)
+qualif CmpZ0(v:@(0)):(v < 0)
+
+qualif CmpZ1(v:@(0)):(v != 0)
+qualif CmpZ2(v:@(0)):(v > 0)
+
+qualif CmpZ3(v:@(0)):(v = 0)
+qualif CmpZ4(v:@(0)):(v <= 0)
+
+qualif EqLen(v:int, ~A:FAppTy (List ) @(0)):(v = len([~A]))
+
+qualif False(v:bool):(~ ((Bexp v)))
+
+qualif False1(v:GHC.Types.Bool ):(~ (Prop(v)))
+
+qualif IsEmp(v:GHC.Types.Bool , ~A:FAppTy (List ) @(0)):(Prop(v) <=> (len([~A]) = 0))
+
+qualif IsEmp0(v:GHC.Types.Bool , ~A:FAppTy (List ) @(0)):(Prop(v) <=> (len([~A]) > 0))
+
+qualif LenAcc(v:int, ~A:FAppTy (List ) @(0), ~B:int):(v = (len([~A]) + ~B))
+
+qualif LenDiff(v:FAppTy (List ) @(0), ~A:int):(len([v]) = (~A - 1))
+
+qualif LenDiff0(v:FAppTy (List ) @(0), ~A:int):(len([v]) = (~A + 1))
+
+qualif LenEq(v:FAppTy (List ) @(0), ~A:int):(~A = len([v]))
+
+qualif ListZ(v:FAppTy (List ) @(0)):(len([v]) = 0)
+
+qualif ListZ0(v:FAppTy (List ) @(0)):(len([v]) > 0)
+
+qualif ListZ1(v:FAppTy (List ) @(0)):(len([v]) >= 0)
+
+qualif One(v:int):(v = 1)
+
+qualif Papp(v:@(0), ~P:FAppTy (Pred ) @(0)):papp1(~P, v)
+
+qualif Papp2(v:@(0), ~X:@(1), ~P:FAppTy (FAppTy (Pred ) @(0)) @(1)):papp2(~P, v, ~X)
+
+qualif Papp3(v:@(0), ~X:@(1), ~Y:@(2), ~P:FAppTy (FAppTy (FAppTy (Pred ) @(0)) @(1)) @(2)):papp3(~P, v, ~X, ~Y)
+
+qualif True(v:bool):(Bexp v)
+
+qualif True1(v:GHC.Types.Bool ):Prop(v) 
+

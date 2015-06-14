@@ -6,7 +6,7 @@ skips :: [a] -> [[a]]
 skips xs = map (map snd) $ zipWith filter filters (replicate len ids)
   where len     = length xs
         ids     = zip [1..len] xs
-        filters = map (\n (a,_) -> a `mod` n == 0) [1..len]
+        filters = map (\n -> (== 0) . flip mod n . fst) [1..len]
 
 localMaxima :: [Integer] -> [Integer]
 localMaxima xs = map (!! 1) . filter maxs . take ((length xs) - 2) $ subs xs

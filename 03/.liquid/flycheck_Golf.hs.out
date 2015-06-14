@@ -1,0 +1,11 @@
+CRASH: Invalid Source
+ /Users/matt/Dropbox/cis194/03/flycheck_Golf.hs:(25,9)-(26,8): Error: GHC Error
+     Illegal type signature: ‘AList -> [AList] rows xs’
+  Perhaps you intended to use ScopedTypeVariables
+In a pattern type-signature
+ /Users/matt/Dropbox/cis194/03/flycheck_Golf.hs:26:34-35: Error: GHC Error
+     Not in scope: ‘xs’
+ /Users/matt/Dropbox/cis194/03/flycheck_Golf.hs:27:17-18: Error: GHC Error
+     Not in scope: ‘xs’
+ /Users/matt/Dropbox/cis194/03/flycheck_Golf.hs:27:44-45: Error: GHC Error
+     Not in scope: ‘xs’

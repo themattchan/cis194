@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<title>/Users/matt/Dropbox/cis194/07/flycheck_Sized.hs</title>
+</head>
+<head>
+<link type='text/css' rel='stylesheet' href='liquid.css' />
+</head>
+
+<body>
+<hr>
+Put mouse over identifiers to see inferred types
+<pre><span class=hs-linenum> 1: </span><span class='hs-comment'>{-# LANGUAGE GeneralizedNewtypeDeriving, FlexibleInstances #-}</span>
+<span class=hs-linenum> 2: </span><span class='hs-keyword'>module</span> <span class='hs-conid'>Sized</span> <span class='hs-keyword'>where</span>
+<span class=hs-linenum> 3: </span>
+<span class=hs-linenum> 4: </span><span class='hs-keyword'>import</span> <span class='hs-conid'>Data</span><span class='hs-varop'>.</span><span class='hs-conid'>Monoid</span>
+<span class=hs-linenum> 5: </span>
+<span class=hs-linenum> 6: </span><span class='hs-keyword'>newtype</span> <span class='hs-conid'>Size</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>Size</span> <span class='hs-conid'>Int</span>
+<span class=hs-linenum> 7: </span>  <span class='hs-keyword'>deriving</span> <span class='hs-layout'>(</span><a class=annot href="#"><span class=annottext>(GHC.Classes.Eq Sized.Size)</span><span class='hs-conid'>Eq</span></a><span class='hs-layout'>,</span> <a class=annot href="#"><span class=annottext>(GHC.Classes.Ord Sized.Size)</span><span class='hs-conid'>Ord</span></a><span class='hs-layout'>,</span> <a class=annot href="#"><span class=annottext>(GHC.Show.Show Sized.Size)</span><span class='hs-conid'>Show</span></a><span class='hs-layout'>,</span> <a class=annot href="#"><span class=annottext>(GHC.Num.Num Sized.Size)</span><span class='hs-conid'>Num</span></a><span class='hs-layout'>)</span>
+<span class=hs-linenum> 8: </span>
+<span class=hs-linenum> 9: </span><span class='hs-definition'>getSize</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>Size</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Int</span>
+<span class=hs-linenum>10: </span><a class=annot href="#"><span class=annottext>Sized.Size -&gt; GHC.Types.Int</span><span class='hs-definition'>getSize</span></a> <span class='hs-layout'>(</span><span class='hs-conid'>Size</span> <span class='hs-varid'>i</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>i</span>
+<span class=hs-linenum>11: </span>
+<span class=hs-linenum>12: </span><span class='hs-keyword'>class</span> <span class='hs-conid'>Sized</span> <span class='hs-varid'>a</span> <span class='hs-keyword'>where</span>
+<span class=hs-linenum>13: </span>  <span class='hs-varid'>size</span> <span class='hs-keyglyph'>::</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Size</span>
+<span class=hs-linenum>14: </span>
+<span class=hs-linenum>15: </span><span class='hs-keyword'>instance</span> <a class=annot href="#"><span class=annottext>(Sized.Sized Sized.Size)</span><span class='hs-conid'>Sized</span></a> <span class='hs-conid'>Size</span> <span class='hs-keyword'>where</span>
+<span class=hs-linenum>16: </span>  <a class=annot href="#"><span class=annottext>x1:Sized.Size -&gt; {v : Sized.Size | v == x1}</span><span class='hs-varid'>size</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>x1:Sized.Size -&gt; {v : Sized.Size | v == x1}</span><span class='hs-varid'>id</span></a>
+<span class=hs-linenum>17: </span>
+<span class=hs-linenum>18: </span><span class='hs-comment'>-- This instance means that things like</span>
+<span class=hs-linenum>19: </span><span class='hs-comment'>--   (Foo, Size)</span>
+<span class=hs-linenum>20: </span><span class='hs-comment'>--   (Foo, (Bar, Size))</span>
+<span class=hs-linenum>21: </span><span class='hs-comment'>--   ...</span>
+<span class=hs-linenum>22: </span><span class='hs-comment'>-- are all instances of Sized.</span>
+<span class=hs-linenum>23: </span><span class='hs-keyword'>instance</span> <a class=annot href="#"><span class=annottext>forall a b.
+(Sized.Sized [Contravariant]
+[] b) =&gt;
+(Sized.Sized (a, b))</span><span class='hs-conid'>Sized</span></a> <span class='hs-varid'>b</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-conid'>Sized</span> <span class='hs-layout'>(</span><span class='hs-varid'>a</span><span class='hs-layout'>,</span><span class='hs-varid'>b</span><span class='hs-layout'>)</span> <span class='hs-keyword'>where</span>
+<span class=hs-linenum>24: </span>  <a class=annot href="#"><span class=annottext>forall a b.
+(Sized.Sized [Contravariant]
+[] b) =&gt;
+(a, b) -&gt; Sized.Size</span><span class='hs-varid'>size</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>a -&gt; Sized.Size</span><span class='hs-varid'>size</span></a> <a class=annot href="#"><span class=annottext>(a -&gt; Sized.Size)
+-&gt; ((b, a) -&gt; a) -&gt; (b, a) -&gt; exists [a].Sized.Size</span><span class='hs-varop'>.</span></a> <a class=annot href="#"><span class=annottext>(a, b) -&gt; b</span><span class='hs-varid'>snd</span></a>
+<span class=hs-linenum>25: </span>
+<span class=hs-linenum>26: </span><span class='hs-keyword'>instance</span> <a class=annot href="#"><span class=annottext>(Data.Monoid.Monoid Sized.Size)</span><span class='hs-conid'>Monoid</span></a> <span class='hs-conid'>Size</span> <span class='hs-keyword'>where</span>
+<span class=hs-linenum>27: </span>  <a class=annot href="#"><span class=annottext>Sized.Size</span><span class='hs-varid'>mempty</span></a>  <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>GHC.Types.Int -&gt; Sized.Size</span><span class='hs-conid'>Size</span></a> <a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == (0  :  int)}</span><span class='hs-num'>0</span></a>
+<span class=hs-linenum>28: </span>  <a class=annot href="#"><span class=annottext>x1:Sized.Size -&gt; x2:Sized.Size -&gt; {v : Sized.Size | v == x1 + x2}</span><span class='hs-varid'>mappend</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>x1:Sized.Size -&gt; x2:Sized.Size -&gt; {v : Sized.Size | v == x1 + x2}</span><span class='hs-layout'>(</span></a><span class='hs-varop'>+</span><span class='hs-layout'>)</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<title>/Users/matt/Dropbox/cis194/07/flycheck_JoinList.hs</title>
+</head>
+<head>
+<link type='text/css' rel='stylesheet' href='liquid.css' />
+</head>
+
+<body>
+<hr>
+Put mouse over identifiers to see inferred types
+<pre><span class=hs-linenum>  1: </span><span class='hs-comment'>{-# LANGUAGE DeriveFunctor, FlexibleInstances, TypeSynonymInstances #-}</span>
+<span class=hs-linenum>  2: </span><span class='hs-keyword'>module</span> <span class='hs-conid'>JoinList</span> <span class='hs-keyword'>where</span>
+<span class=hs-linenum>  3: </span>
+<span class=hs-linenum>  4: </span><span class='hs-keyword'>import</span> <span class='hs-conid'>Data</span><span class='hs-varop'>.</span><span class='hs-conid'>Monoid</span>
+<span class=hs-linenum>  5: </span><span class='hs-keyword'>import</span> <span class='hs-conid'>Control</span><span class='hs-varop'>.</span><span class='hs-conid'>Applicative</span>
+<span class=hs-linenum>  6: </span><span class='hs-keyword'>import</span> <span class='hs-conid'>Test</span><span class='hs-varop'>.</span><span class='hs-conid'>QuickCheck</span> <span class='hs-varid'>hiding</span> <span class='hs-layout'>(</span><span class='hs-layout'>(</span><span class='hs-varop'>===</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span>
+<span class=hs-linenum>  7: </span>
+<span class=hs-linenum>  8: </span><span class='hs-keyword'>import</span> <span class='hs-conid'>Sized</span>
+<span class=hs-linenum>  9: </span><span class='hs-keyword'>import</span> <span class='hs-conid'>Scrabble</span>
+<span class=hs-linenum> 10: </span><span class='hs-keyword'>import</span> <span class='hs-conid'>Buffer</span>
+<span class=hs-linenum> 11: </span><span class='hs-keyword'>import</span> <span class='hs-conid'>Editor</span>
+<span class=hs-linenum> 12: </span>
+<span class=hs-linenum> 13: </span><span class='hs-comment'>-- Quickcheck interface</span>
+<span class=hs-linenum> 14: </span><a class=annot href="#"><span class=annottext>forall a.
+(Test.QuickCheck.Property.Testable [Contravariant]
+[] a) =&gt;
+GHC.Types.Int -&gt; a -&gt; (GHC.Types.IO ())</span><span class='hs-definition'>quickCheckN</span></a> <a class=annot href="#"><span class=annottext>GHC.Types.Int</span><span class='hs-varid'>n</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>Test.QuickCheck.Test.Args -&gt; a -&gt; (GHC.Types.IO ())</span><span class='hs-varid'>quickCheckWith</span></a> <a class=annot href="#"><span class=annottext>(Test.QuickCheck.Test.Args -&gt; a -&gt; (GHC.Types.IO ()))
+-&gt; Test.QuickCheck.Test.Args -&gt; a -&gt; (GHC.Types.IO ())</span><span class='hs-varop'>$</span></a> <a class=annot href="#"><span class=annottext>{v : Test.QuickCheck.Test.Args | v == Test.QuickCheck.Test.stdArgs}</span><span class='hs-varid'>stdArgs</span></a> <span class='hs-layout'>{</span> <span class='hs-varid'>maxSuccess</span> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == n}</span><span class='hs-varid'>n</span></a> <span class='hs-layout'>}</span>
+<span class=hs-linenum> 15: </span>
+<span class=hs-linenum> 16: </span><span class='hs-comment'>-- data Product = Product Int deriving (Functor)</span>
+<span class=hs-linenum> 17: </span>
+<span class=hs-linenum> 18: </span><span class='hs-keyword'>instance</span> <a class=annot href="#"><span class=annottext>(Data.Monoid.Monoid GHC.Types.Int)</span><span class='hs-conid'>Monoid</span></a> <span class='hs-conid'>Int</span> <span class='hs-keyword'>where</span>
+<span class=hs-linenum> 19: </span>  <a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == (1  :  int)}</span><span class='hs-varid'>mempty</span></a>  <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == (1  :  int)}</span><span class='hs-num'>1</span></a>
+<span class=hs-linenum> 20: </span>  <a class=annot href="#"><span class=annottext>x1:GHC.Types.Int
+-&gt; x2:GHC.Types.Int
+-&gt; {v : GHC.Types.Int | x1 &gt; 0 &amp;&amp; x2 &gt; 0 =&gt; v &gt;= x1 &amp;&amp; v &gt;= x2 &amp;&amp; x1 &gt; 1 &amp;&amp; x2 &gt; 1 =&gt; v &gt; x1 &amp;&amp; v &gt; x2 &amp;&amp; x1 == 0 || x2 == 0 =&gt; v == 0}</span><span class='hs-varid'>mappend</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>x1:GHC.Types.Int
+-&gt; x2:GHC.Types.Int
+-&gt; {v : GHC.Types.Int | x1 &gt; 0 &amp;&amp; x2 &gt; 0 =&gt; v &gt;= x1 &amp;&amp; v &gt;= x2 &amp;&amp; x1 &gt; 1 &amp;&amp; x2 &gt; 1 =&gt; v &gt; x1 &amp;&amp; v &gt; x2 &amp;&amp; x1 == 0 || x2 == 0 =&gt; v == 0}</span><span class='hs-layout'>(</span></a><span class='hs-varop'>*</span><span class='hs-layout'>)</span>
+<span class=hs-linenum> 21: </span>
+<span class=hs-linenum> 22: </span><span class='hs-keyword'>data</span> <span class='hs-conid'>JoinList</span> <span class='hs-varid'>m</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>Empty</span>
+<span class=hs-linenum> 23: </span>                  <span class='hs-keyglyph'>|</span> <span class='hs-conid'>Single</span> <span class='hs-varid'>m</span> <span class='hs-varid'>a</span>
+<span class=hs-linenum> 24: </span>                  <span class='hs-keyglyph'>|</span> <span class='hs-conid'>Append</span> <span class='hs-varid'>m</span> <span class='hs-layout'>(</span><span class='hs-conid'>JoinList</span> <span class='hs-varid'>m</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-conid'>JoinList</span> <span class='hs-varid'>m</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span>
+<span class=hs-linenum> 25: </span>                  <span class='hs-keyword'>deriving</span> <span class='hs-layout'>(</span><a class=annot href="#"><span class=annottext>forall a b.
+(GHC.Classes.Eq [Contravariant]
+[] a, GHC.Classes.Eq [Contravariant]
+[] b) =&gt;
+(GHC.Classes.Eq (JoinList.JoinList a b))</span><span class='hs-conid'>Eq</span></a><span class='hs-layout'>,</span> <a class=annot href="#"><span class=annottext>forall a b.
+(GHC.Show.Show [Contravariant]
+[] a, GHC.Show.Show [Contravariant]
+[] b) =&gt;
+(GHC.Show.Show (JoinList.JoinList a b))</span><span class='hs-conid'>Show</span></a><span class='hs-layout'>)</span>
+<span class=hs-linenum> 26: </span>
+<span class=hs-linenum> 27: </span>
+<span class=hs-linenum> 28: </span><span class='hs-comment'>-- Exercise 1</span>
+<span class=hs-linenum> 29: </span>
+<span class=hs-linenum> 30: </span><span class='hs-layout'>(</span><span class='hs-varop'>+++</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>Monoid</span> <span class='hs-varid'>m</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-conid'>JoinList</span> <span class='hs-varid'>m</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>JoinList</span> <span class='hs-varid'>m</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>JoinList</span> <span class='hs-varid'>m</span> <span class='hs-varid'>a</span>
+<span class=hs-linenum> 31: </span><a class=annot href="#"><span class=annottext>forall a b.
+(Data.Monoid.Monoid [Bivariant]
+[] a) =&gt;
+(JoinList.JoinList a b)
+-&gt; (JoinList.JoinList a b) -&gt; (JoinList.JoinList a b)</span><span class='hs-layout'>(</span></a><span class='hs-varop'>+++</span><span class='hs-layout'>)</span> <span class='hs-conid'>Empty</span> <a class=annot href="#"><span class=annottext>(JoinList.JoinList a b)</span><span class='hs-varid'>y</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList a b) | v == y}</span><span class='hs-varid'>y</span></a>
+<span class=hs-linenum> 32: </span><span class='hs-layout'>(</span><span class='hs-varop'>+++</span><span class='hs-layout'>)</span> <span class='hs-varid'>x</span> <span class='hs-conid'>Empty</span> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>(JoinList.JoinList a b)</span><span class='hs-varid'>x</span></a>
+<span class=hs-linenum> 33: </span><span class='hs-layout'>(</span><span class='hs-varop'>+++</span><span class='hs-layout'>)</span> <span class='hs-varid'>x</span> <span class='hs-varid'>y</span>     <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>a
+-&gt; (JoinList.JoinList a b)
+-&gt; (JoinList.JoinList a b)
+-&gt; (JoinList.JoinList a b)</span><span class='hs-conid'>Append</span></a> <span class='hs-layout'>(</span><a class=annot href="#"><span class=annottext>a -&gt; a -&gt; a</span><span class='hs-varid'>mappend</span></a> <span class='hs-layout'>(</span><a class=annot href="#"><span class=annottext>(JoinList.JoinList a b) -&gt; a</span><span class='hs-varid'>tag</span></a> <a class=annot href="#"><span class=annottext>(JoinList.JoinList a b)</span><span class='hs-varid'>x</span></a><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><a class=annot href="#"><span class=annottext>(JoinList.JoinList a b) -&gt; a</span><span class='hs-varid'>tag</span></a> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList a b) | v == y}</span><span class='hs-varid'>y</span></a><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <a class=annot href="#"><span class=annottext>(JoinList.JoinList a b)</span><span class='hs-varid'>x</span></a> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList a b) | v == y}</span><span class='hs-varid'>y</span></a>
+<span class=hs-linenum> 34: </span>
+<span class=hs-linenum> 35: </span><span class='hs-definition'>tag</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>Monoid</span> <span class='hs-varid'>m</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-conid'>JoinList</span> <span class='hs-varid'>m</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>m</span>
+<span class=hs-linenum> 36: </span><a class=annot href="#"><span class=annottext>forall a b.
+(Data.Monoid.Monoid [Bivariant]
+[] a) =&gt;
+(JoinList.JoinList a b) -&gt; a</span><span class='hs-definition'>tag</span></a> <span class='hs-conid'>Empty</span>          <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{v : (Data.Monoid.Monoid a) | v == $dMonoid_a6OL}</span><span class='hs-varid'>mempty</span></a>
+<span class=hs-linenum> 37: </span><span class='hs-definition'>tag</span> <span class='hs-layout'>(</span><span class='hs-conid'>Single</span> <span class='hs-varid'>t</span> <span class='hs-keyword'>_</span><span class='hs-layout'>)</span>   <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{VV : a | VV == t}</span><span class='hs-varid'>t</span></a>
+<span class=hs-linenum> 38: </span><span class='hs-definition'>tag</span> <span class='hs-layout'>(</span><span class='hs-conid'>Append</span> <span class='hs-varid'>t</span> <span class='hs-keyword'>_</span> <span class='hs-keyword'>_</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{VV : a | VV == t}</span><span class='hs-varid'>t</span></a>
+<span class=hs-linenum> 39: </span>
+<span class=hs-linenum> 40: </span>
+<span class=hs-linenum> 41: </span><span class='hs-comment'>-- Exercise 2</span>
+<span class=hs-linenum> 42: </span><span class='hs-comment'>-- TODO : write some QC tests</span>
+<span class=hs-linenum> 43: </span>
+<span class=hs-linenum> 44: </span><span class='hs-definition'>len</span> <span class='hs-keyglyph'>::</span> <span class='hs-layout'>(</span><span class='hs-conid'>Sized</span> <span class='hs-varid'>b</span><span class='hs-layout'>,</span> <span class='hs-conid'>Monoid</span> <span class='hs-varid'>b</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-conid'>JoinList</span> <span class='hs-varid'>b</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Int</span>
+<span class=hs-linenum> 45: </span><a class=annot href="#"><span class=annottext>forall a b.
+(Sized.Sized [Contravariant]
+[] a, Data.Monoid.Monoid [Bivariant]
+[] a) =&gt;
+(JoinList.JoinList a b) -&gt; GHC.Types.Int</span><span class='hs-definition'>len</span></a> <span class='hs-conid'>Empty</span> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>Sized.Size -&gt; GHC.Types.Int</span><span class='hs-varid'>getSize</span></a> <a class=annot href="#"><span class=annottext>Sized.Size</span><span class='hs-varid'>mempty</span></a>
+<span class=hs-linenum> 46: </span><span class='hs-definition'>len</span> <span class='hs-varid'>j</span>     <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>Sized.Size -&gt; GHC.Types.Int</span><span class='hs-varid'>getSize</span></a> <a class=annot href="#"><span class=annottext>(Sized.Size -&gt; GHC.Types.Int)
+-&gt; (a -&gt; Sized.Size) -&gt; a -&gt; exists [Sized.Size].GHC.Types.Int</span><span class='hs-varop'>.</span></a> <a class=annot href="#"><span class=annottext>a -&gt; Sized.Size</span><span class='hs-varid'>size</span></a> <a class=annot href="#"><span class=annottext>(a -&gt; GHC.Types.Int) -&gt; a -&gt; GHC.Types.Int</span><span class='hs-varop'>$</span></a> <a class=annot href="#"><span class=annottext>(JoinList.JoinList a b) -&gt; a</span><span class='hs-varid'>tag</span></a> <a class=annot href="#"><span class=annottext>(JoinList.JoinList a b)</span><span class='hs-varid'>j</span></a>
+<span class=hs-linenum> 47: </span>
+<span class=hs-linenum> 48: </span><span class='hs-definition'>indexJ</span> <span class='hs-keyglyph'>::</span> <span class='hs-layout'>(</span><span class='hs-conid'>Sized</span> <span class='hs-varid'>b</span><span class='hs-layout'>,</span> <span class='hs-conid'>Monoid</span> <span class='hs-varid'>b</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-conid'>Int</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>JoinList</span> <span class='hs-varid'>b</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Maybe</span> <span class='hs-varid'>a</span>
+<span class=hs-linenum> 49: </span><a class=annot href="#"><span class=annottext>forall a b.
+(Sized.Sized [Contravariant]
+[] a, Data.Monoid.Monoid [Bivariant]
+[] a) =&gt;
+GHC.Types.Int -&gt; (JoinList.JoinList a b) -&gt; (Data.Maybe.Maybe b)</span><span class='hs-definition'>indexJ</span></a> <span class='hs-num'>0</span> <span class='hs-layout'>(</span><span class='hs-conid'>Single</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span>   <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>x1:a
+-&gt; {v : (Data.Maybe.Maybe a) | isJust v &lt;=&gt; true &amp;&amp; fromJust v == x1}</span><span class='hs-conid'>Just</span></a> <a class=annot href="#"><span class=annottext>{VV : a | VV == e}</span><span class='hs-varid'>e</span></a>
+<span class=hs-linenum> 50: </span><span class='hs-definition'>indexJ</span> <span class='hs-varid'>i</span> <span class='hs-layout'>(</span><span class='hs-conid'>Append</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>x</span> <span class='hs-varid'>y</span><span class='hs-layout'>)</span>
+<span class=hs-linenum> 51: </span>  <span class='hs-keyglyph'>|</span> <a class=annot href="#"><span class=annottext>GHC.Types.Int</span><span class='hs-varid'>i</span></a> <a class=annot href="#"><span class=annottext>x1:GHC.Types.Int
+-&gt; x2:GHC.Types.Int -&gt; {v : GHC.Types.Bool | Prop v &lt;=&gt; x1 &lt; v}</span><span class='hs-varop'>&lt;</span></a> <a class=annot href="#"><span class=annottext>(JoinList.JoinList a b) -&gt; GHC.Types.Int</span><span class='hs-varid'>len</span></a> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList a b) | v == x}</span><span class='hs-varid'>x</span></a>           <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>forall a b.
+(Sized.Sized [Contravariant]
+[] a, Data.Monoid.Monoid [Bivariant]
+[] a) =&gt;
+GHC.Types.Int -&gt; (JoinList.JoinList a b) -&gt; (Data.Maybe.Maybe b)</span><span class='hs-varid'>indexJ</span></a> <span class=hs-error><a class=annot href="#"><span class=annottext>GHC.Types.Int</span><span class='hs-varid'>i</span></a></span> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList a b) | v == x}</span><span class='hs-varid'>x</span></a>
+<span class=hs-linenum> 52: </span>  <span class='hs-keyglyph'>|</span> <span class='hs-varid'>otherwise</span>           <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>forall a b.
+(Sized.Sized [Contravariant]
+[] a, Data.Monoid.Monoid [Bivariant]
+[] a) =&gt;
+GHC.Types.Int -&gt; (JoinList.JoinList a b) -&gt; (Data.Maybe.Maybe b)</span><span class='hs-varid'>indexJ</span></a> <span class='hs-layout'>(</span><span class=hs-error><a class=annot href="#"><span class=annottext>GHC.Types.Int</span><span class='hs-varid'>i</span></a></span><span class=hs-error> </span><span class=hs-error><a class=annot href="#"><span class=annottext>x1:GHC.Types.Int
+-&gt; x2:GHC.Types.Int -&gt; {v : GHC.Types.Int | v == x1 - x2}</span><span class='hs-comment'>-</span></a></span><span class=hs-error> </span><span class=hs-error><a class=annot href="#"><span class=annottext>(JoinList.JoinList a b) -&gt; GHC.Types.Int</span><span class='hs-varid'>len</span></a></span><span class=hs-error> </span><span class=hs-error><a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList a b) | v == x}</span><span class='hs-varid'>x</span></a></span><span class='hs-layout'>)</span> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList a b) | v == y}</span><span class='hs-varid'>y</span></a>
+<span class=hs-linenum> 53: </span><span class='hs-definition'>indexJ</span> <span class='hs-keyword'>_</span> <span class='hs-keyword'>_</span>              <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{v : (Data.Maybe.Maybe a) | isJust v &lt;=&gt; false}</span><span class='hs-conid'>Nothing</span></a>
+<span class=hs-linenum> 54: </span>
+<span class=hs-linenum> 55: </span><span class='hs-definition'>dropJ</span> <span class='hs-keyglyph'>::</span> <span class='hs-layout'>(</span><span class='hs-conid'>Sized</span> <span class='hs-varid'>b</span><span class='hs-layout'>,</span> <span class='hs-conid'>Monoid</span> <span class='hs-varid'>b</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-conid'>Int</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>JoinList</span> <span class='hs-varid'>b</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>JoinList</span> <span class='hs-varid'>b</span> <span class='hs-varid'>a</span>
+<span class=hs-linenum> 56: </span><a class=annot href="#"><span class=annottext>forall a b.
+(Sized.Sized [Contravariant]
+[] a, Data.Monoid.Monoid [Bivariant]
+[] a) =&gt;
+GHC.Types.Int -&gt; (JoinList.JoinList a b) -&gt; (JoinList.JoinList a b)</span><span class='hs-definition'>dropJ</span></a> <a class=annot href="#"><span class=annottext>GHC.Types.Int</span><span class='hs-varid'>i</span></a> <a class=annot href="#"><span class=annottext>(JoinList.JoinList a b)</span><span class='hs-varid'>l</span></a> <span class='hs-keyglyph'>|</span> <a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == i}</span><span class='hs-varid'>i</span></a> <a class=annot href="#"><span class=annottext>x1:GHC.Types.Int
+-&gt; x2:GHC.Types.Int -&gt; {v : GHC.Types.Bool | Prop v &lt;=&gt; x1 &lt;= v}</span><span class='hs-varop'>&lt;=</span></a> <a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == (0  :  int)}</span><span class='hs-num'>0</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList a b) | v == l}</span><span class='hs-varid'>l</span></a>
+<span class=hs-linenum> 57: </span><span class='hs-definition'>dropJ</span> <span class='hs-varid'>i</span> <span class='hs-layout'>(</span><span class='hs-conid'>Append</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>x</span> <span class='hs-varid'>y</span><span class='hs-layout'>)</span>
+<span class=hs-linenum> 58: </span>  <span class='hs-keyglyph'>|</span> <a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == i}</span><span class='hs-varid'>i</span></a> <a class=annot href="#"><span class=annottext>x1:GHC.Types.Int
+-&gt; x2:GHC.Types.Int -&gt; {v : GHC.Types.Bool | Prop v &lt;=&gt; x1 &lt; v}</span><span class='hs-varop'>&lt;</span></a> <a class=annot href="#"><span class=annottext>(JoinList.JoinList a b) -&gt; GHC.Types.Int</span><span class='hs-varid'>len</span></a> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList a b) | v == x}</span><span class='hs-varid'>x</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>forall a b.
+(Sized.Sized [Contravariant]
+[] a, Data.Monoid.Monoid [Bivariant]
+[] a) =&gt;
+GHC.Types.Int -&gt; (JoinList.JoinList a b) -&gt; (JoinList.JoinList a b)</span><span class='hs-varid'>dropJ</span></a> <span class=hs-error><a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == i}</span><span class='hs-varid'>i</span></a></span> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList a b) | v == x}</span><span class='hs-varid'>x</span></a> <a class=annot href="#"><span class=annottext>(JoinList.JoinList a b)
+-&gt; (JoinList.JoinList a b) -&gt; (JoinList.JoinList a b)</span><span class='hs-varop'>+++</span></a> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList a b) | v == y}</span><span class='hs-varid'>y</span></a>
+<span class=hs-linenum> 59: </span>  <span class='hs-keyglyph'>|</span> <span class='hs-varid'>otherwise</span> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>forall a b.
+(Sized.Sized [Contravariant]
+[] a, Data.Monoid.Monoid [Bivariant]
+[] a) =&gt;
+GHC.Types.Int -&gt; (JoinList.JoinList a b) -&gt; (JoinList.JoinList a b)</span><span class='hs-varid'>dropJ</span></a> <span class='hs-layout'>(</span><span class=hs-error><a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == i}</span><span class='hs-varid'>i</span></a></span><span class=hs-error> </span><span class=hs-error><a class=annot href="#"><span class=annottext>x1:GHC.Types.Int
+-&gt; x2:GHC.Types.Int -&gt; {v : GHC.Types.Int | v == x1 - x2}</span><span class='hs-comment'>-</span></a></span><span class=hs-error> </span><span class=hs-error><a class=annot href="#"><span class=annottext>(JoinList.JoinList a b) -&gt; GHC.Types.Int</span><span class='hs-varid'>len</span></a></span><span class=hs-error> </span><span class=hs-error><a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList a b) | v == x}</span><span class='hs-varid'>x</span></a></span><span class='hs-layout'>)</span> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList a b) | v == y}</span><span class='hs-varid'>y</span></a>
+<span class=hs-linenum> 60: </span><span class='hs-definition'>dropJ</span> <span class='hs-keyword'>_</span> <span class='hs-keyword'>_</span> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>(JoinList.JoinList a b)</span><span class='hs-conid'>Empty</span></a>
+<span class=hs-linenum> 61: </span>
+<span class=hs-linenum> 62: </span><span class='hs-definition'>takeJ</span> <span class='hs-keyglyph'>::</span> <span class='hs-layout'>(</span><span class='hs-conid'>Sized</span> <span class='hs-varid'>b</span><span class='hs-layout'>,</span> <span class='hs-conid'>Monoid</span> <span class='hs-varid'>b</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=&gt;</span> <span class='hs-conid'>Int</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>JoinList</span> <span class='hs-varid'>b</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>JoinList</span> <span class='hs-varid'>b</span> <span class='hs-varid'>a</span>
+<span class=hs-linenum> 63: </span><a class=annot href="#"><span class=annottext>forall a b.
+(Sized.Sized [Contravariant]
+[] a, Data.Monoid.Monoid [Bivariant]
+[] a) =&gt;
+GHC.Types.Int -&gt; (JoinList.JoinList a b) -&gt; (JoinList.JoinList a b)</span><span class='hs-definition'>takeJ</span></a> <a class=annot href="#"><span class=annottext>GHC.Types.Int</span><span class='hs-varid'>i</span></a> <a class=annot href="#"><span class=annottext>(JoinList.JoinList a b)</span><span class='hs-varid'>l</span></a> <span class='hs-keyglyph'>|</span> <a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == i}</span><span class='hs-varid'>i</span></a> <a class=annot href="#"><span class=annottext>x1:GHC.Types.Int
+-&gt; x2:GHC.Types.Int -&gt; {v : GHC.Types.Bool | Prop v &lt;=&gt; x1 &lt;= v}</span><span class='hs-varop'>&lt;=</span></a> <a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == (0  :  int)}</span><span class='hs-num'>0</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>forall a b. (JoinList.JoinList a b)</span><span class='hs-conid'>Empty</span></a>
+<span class=hs-linenum> 64: </span><span class='hs-definition'>takeJ</span> <span class='hs-varid'>i</span> <span class='hs-layout'>(</span><span class='hs-conid'>Append</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>x</span> <span class='hs-varid'>y</span><span class='hs-layout'>)</span>
+<span class=hs-linenum> 65: </span>  <span class='hs-keyglyph'>|</span> <a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == i}</span><span class='hs-varid'>i</span></a> <a class=annot href="#"><span class=annottext>x1:GHC.Types.Int
+-&gt; x2:GHC.Types.Int -&gt; {v : GHC.Types.Bool | Prop v &lt;=&gt; x1 &lt; v}</span><span class='hs-varop'>&lt;</span></a> <a class=annot href="#"><span class=annottext>(JoinList.JoinList a b) -&gt; GHC.Types.Int</span><span class='hs-varid'>len</span></a> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList a b) | v == x}</span><span class='hs-varid'>x</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>forall a b.
+(Sized.Sized [Contravariant]
+[] a, Data.Monoid.Monoid [Bivariant]
+[] a) =&gt;
+GHC.Types.Int -&gt; (JoinList.JoinList a b) -&gt; (JoinList.JoinList a b)</span><span class='hs-varid'>takeJ</span></a> <span class=hs-error><a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == i}</span><span class='hs-varid'>i</span></a></span> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList a b) | v == x}</span><span class='hs-varid'>x</span></a>
+<span class=hs-linenum> 66: </span>  <span class='hs-keyglyph'>|</span> <span class='hs-varid'>otherwise</span> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList a b) | v == x}</span><span class='hs-varid'>x</span></a> <a class=annot href="#"><span class=annottext>(JoinList.JoinList a b)
+-&gt; (JoinList.JoinList a b) -&gt; (JoinList.JoinList a b)</span><span class='hs-varop'>+++</span></a> <a class=annot href="#"><span class=annottext>forall a b.
+(Sized.Sized [Contravariant]
+[] a, Data.Monoid.Monoid [Bivariant]
+[] a) =&gt;
+GHC.Types.Int -&gt; (JoinList.JoinList a b) -&gt; (JoinList.JoinList a b)</span><span class='hs-varid'>takeJ</span></a> <span class='hs-layout'>(</span><span class=hs-error><a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == i}</span><span class='hs-varid'>i</span></a></span><span class=hs-error> </span><span class=hs-error><a class=annot href="#"><span class=annottext>x1:GHC.Types.Int
+-&gt; x2:GHC.Types.Int -&gt; {v : GHC.Types.Int | v == x1 - x2}</span><span class='hs-comment'>-</span></a></span><span class=hs-error> </span><span class=hs-error><a class=annot href="#"><span class=annottext>(JoinList.JoinList a b) -&gt; GHC.Types.Int</span><span class='hs-varid'>len</span></a></span><span class=hs-error> </span><span class=hs-error><a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList a b) | v == x}</span><span class='hs-varid'>x</span></a></span><span class='hs-layout'>)</span> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList a b) | v == y}</span><span class='hs-varid'>y</span></a>
+<span class=hs-linenum> 67: </span><span class='hs-definition'>takeJ</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>l</span> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList a b) | v == l}</span><span class='hs-varid'>l</span></a>
+<span class=hs-linenum> 68: </span>
+<span class=hs-linenum> 69: </span>
+<span class=hs-linenum> 70: </span>
+<span class=hs-linenum> 71: </span><span class='hs-comment'>-- Exercise 3</span>
+<span class=hs-linenum> 72: </span><span class='hs-comment'>-- also see Scrabble.hs</span>
+<span class=hs-linenum> 73: </span>
+<span class=hs-linenum> 74: </span><span class='hs-definition'>scoreLine</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>String</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>JoinList</span> <span class='hs-conid'>Score</span> <span class='hs-conid'>String</span>
+<span class=hs-linenum> 75: </span><a class=annot href="#"><span class=annottext>[GHC.Types.Char]
+-&gt; (JoinList.JoinList Scrabble.Score [GHC.Types.Char])</span><span class='hs-definition'>scoreLine</span></a> <a class=annot href="#"><span class=annottext>[GHC.Types.Char]</span><span class='hs-varid'>l</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>Scrabble.Score
+-&gt; [GHC.Types.Char]
+-&gt; (JoinList.JoinList Scrabble.Score [GHC.Types.Char])</span><span class='hs-conid'>Single</span></a> <span class='hs-layout'>(</span><a class=annot href="#"><span class=annottext>[GHC.Types.Char] -&gt; Scrabble.Score</span><span class='hs-varid'>scoreString</span></a> <a class=annot href="#"><span class=annottext>{v : [GHC.Types.Char] | v == l &amp;&amp; len v &gt;= 0}</span><span class='hs-varid'>l</span></a><span class='hs-layout'>)</span> <a class=annot href="#"><span class=annottext>{v : [GHC.Types.Char] | v == l &amp;&amp; len v &gt;= 0}</span><span class='hs-varid'>l</span></a>
+<span class=hs-linenum> 76: </span>
+<span class=hs-linenum> 77: </span><span class='hs-comment'>-- Exercise 4</span>
+<span class=hs-linenum> 78: </span>
+<span class=hs-linenum> 79: </span><span class='hs-keyword'>instance</span> <a class=annot href="#"><span class=annottext>(Buffer.Buffer (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char]))</span><span class='hs-conid'>Buffer</span></a> <span class='hs-layout'>(</span><span class='hs-conid'>JoinList</span> <span class='hs-layout'>(</span><span class='hs-conid'>Score</span><span class='hs-layout'>,</span> <span class='hs-conid'>Size</span><span class='hs-layout'>)</span> <span class='hs-conid'>String</span><span class='hs-layout'>)</span> <span class='hs-keyword'>where</span>
+<span class=hs-linenum> 80: </span>   <span class='hs-comment'>-- | Convert a buffer to a String.</span>
+<span class=hs-linenum> 81: </span>  <span class='hs-comment'>-- toString :: b -&gt; String</span>
+<span class=hs-linenum> 82: </span>  <a class=annot href="#"><span class=annottext>(JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])
+-&gt; [GHC.Types.Char]</span><span class='hs-varid'>toString</span></a> <span class='hs-conid'>Empty</span>          <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>forall a &lt;p :: a a -&gt; Prop&gt;.
+{v : [a]&lt;\x4 VV -&gt; p x4&gt; | null v &lt;=&gt; true &amp;&amp; len v == 0}</span><span class='hs-str'>""</span></a>
+<span class=hs-linenum> 83: </span>  <span class='hs-varid'>toString</span> <span class='hs-layout'>(</span><span class='hs-conid'>Single</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span>   <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>{v : [GHC.Types.Char] | v == s &amp;&amp; len v &gt;= 0}</span><span class='hs-varid'>s</span></a>
+<span class=hs-linenum> 84: </span>  <span class='hs-varid'>toString</span> <span class='hs-layout'>(</span><span class='hs-conid'>Append</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>l</span> <span class='hs-varid'>r</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>(Buffer.Buffer (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char]))</span><span class='hs-varid'>toString</span></a> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char]) | v == l}</span><span class='hs-varid'>l</span></a> <a class=annot href="#"><span class=annottext>x1:[GHC.Types.Char]
+-&gt; x2:[GHC.Types.Char]
+-&gt; {v : [GHC.Types.Char] | len v == len x1 + len v}</span><span class='hs-varop'>++</span></a> <a class=annot href="#"><span class=annottext>(Buffer.Buffer (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char]))</span><span class='hs-varid'>toString</span></a> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char]) | v == r}</span><span class='hs-varid'>r</span></a>
+<span class=hs-linenum> 85: </span>
+<span class=hs-linenum> 86: </span>  <span class='hs-comment'>-- | Create a buffer from a String.</span>
+<span class=hs-linenum> 87: </span>  <span class='hs-comment'>-- fromString :: String -&gt; b</span>
+<span class=hs-linenum> 88: </span>  <a class=annot href="#"><span class=annottext>[GHC.Types.Char]
+-&gt; (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])</span><span class='hs-varid'>fromString</span></a> <a class=annot href="#"><span class=annottext>[GHC.Types.Char]</span><span class='hs-varid'>s</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>(Scrabble.Score, Sized.Size)
+-&gt; [GHC.Types.Char]
+-&gt; (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])</span><span class='hs-conid'>Single</span></a> <a class=annot href="#"><span class=annottext>(Scrabble.Score, Sized.Size)</span><span class='hs-layout'>(</span></a><a class=annot href="#"><span class=annottext>[GHC.Types.Char] -&gt; Scrabble.Score</span><span class='hs-varid'>scoreString</span></a> <a class=annot href="#"><span class=annottext>{v : [GHC.Types.Char] | v == s &amp;&amp; len v &gt;= 0}</span><span class='hs-varid'>s</span></a><span class='hs-layout'>,</span> <a class=annot href="#"><span class=annottext>GHC.Types.Int -&gt; Sized.Size</span><span class='hs-conid'>Size</span></a> <a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == (1  :  int)}</span><span class='hs-num'>1</span></a><span class='hs-layout'>)</span> <a class=annot href="#"><span class=annottext>{v : [GHC.Types.Char] | v == s &amp;&amp; len v &gt;= 0}</span><span class='hs-varid'>s</span></a>
+<span class=hs-linenum> 89: </span>
+<span class=hs-linenum> 90: </span>  <span class='hs-comment'>-- | Extract the nth line (0-indexed) from a buffer.  Return Nothing</span>
+<span class=hs-linenum> 91: </span>  <span class='hs-comment'>-- for out-of-bounds indices.</span>
+<span class=hs-linenum> 92: </span>  <span class='hs-comment'>-- line :: Int -&gt; b -&gt; Maybe String</span>
+<span class=hs-linenum> 93: </span>  <a class=annot href="#"><span class=annottext>GHC.Types.Int
+-&gt; (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])
+-&gt; (Data.Maybe.Maybe [GHC.Types.Char])</span><span class='hs-varid'>line</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>GHC.Types.Int
+-&gt; (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])
+-&gt; (Data.Maybe.Maybe [GHC.Types.Char])</span><span class='hs-varid'>indexJ</span></a>
+<span class=hs-linenum> 94: </span>
+<span class=hs-linenum> 95: </span>  <span class='hs-comment'>-- | @replaceLine n ln buf@ returns a modified version of @buf@,</span>
+<span class=hs-linenum> 96: </span>  <span class='hs-comment'>--   with the @n@th line replaced by @ln@.  If the index is</span>
+<span class=hs-linenum> 97: </span>  <span class='hs-comment'>--   out-of-bounds, the buffer should be returned unmodified.</span>
+<span class=hs-linenum> 98: </span>  <span class='hs-comment'>-- replaceLine :: Int -&gt; String -&gt; b -&gt; b</span>
+<span class=hs-linenum> 99: </span>  <a class=annot href="#"><span class=annottext>GHC.Types.Int
+-&gt; [GHC.Types.Char]
+-&gt; (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])
+-&gt; (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])</span><span class='hs-varid'>replaceLine</span></a> <a class=annot href="#"><span class=annottext>GHC.Types.Int</span><span class='hs-varid'>n</span></a> <a class=annot href="#"><span class=annottext>[GHC.Types.Char]</span><span class='hs-varid'>s</span></a> <a class=annot href="#"><span class=annottext>(JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])</span><span class='hs-varid'>b</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>GHC.Types.Int
+-&gt; (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])
+-&gt; (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])</span><span class='hs-varid'>takeJ</span></a> <span class='hs-layout'>(</span><a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == n}</span><span class='hs-varid'>n</span></a><a class=annot href="#"><span class=annottext>x1:GHC.Types.Int
+-&gt; x2:GHC.Types.Int -&gt; {v : GHC.Types.Int | v == x1 - x2}</span><span class='hs-comment'>-</span></a><a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == (1  :  int)}</span><span class='hs-num'>1</span></a><span class='hs-layout'>)</span> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char]) | v == b}</span><span class='hs-varid'>b</span></a> <a class=annot href="#"><span class=annottext>(JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])
+-&gt; (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])
+-&gt; (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])</span><span class='hs-varop'>+++</span></a> <a class=annot href="#"><span class=annottext>(Buffer.Buffer (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char]))</span><span class='hs-varid'>fromString</span></a> <a class=annot href="#"><span class=annottext>{v : [GHC.Types.Char] | v == s &amp;&amp; len v &gt;= 0}</span><span class='hs-varid'>s</span></a> <a class=annot href="#"><span class=annottext>(JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])
+-&gt; (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])
+-&gt; (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])</span><span class='hs-varop'>+++</span></a> <a class=annot href="#"><span class=annottext>GHC.Types.Int
+-&gt; (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])
+-&gt; (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])</span><span class='hs-varid'>dropJ</span></a> <a class=annot href="#"><span class=annottext>{v : GHC.Types.Int | v == n}</span><span class='hs-varid'>n</span></a> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char]) | v == b}</span><span class='hs-varid'>b</span></a>
+<span class=hs-linenum>100: </span>
+<span class=hs-linenum>101: </span>  <span class='hs-comment'>-- | Compute the number of lines in the buffer.</span>
+<span class=hs-linenum>102: </span>  <span class='hs-comment'>-- numLines :: b -&gt; Int</span>
+<span class=hs-linenum>103: </span>  <a class=annot href="#"><span class=annottext>(JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])
+-&gt; GHC.Types.Int</span><span class='hs-varid'>numLines</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>(JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])
+-&gt; GHC.Types.Int</span><span class='hs-varid'>len</span></a>
+<span class=hs-linenum>104: </span>
+<span class=hs-linenum>105: </span>  <span class='hs-comment'>-- | Compute the value of the buffer, i.e. the amount someone would</span>
+<span class=hs-linenum>106: </span>  <span class='hs-comment'>--   be paid for publishing the contents of the buffer.</span>
+<span class=hs-linenum>107: </span>  <span class='hs-comment'>-- value :: b -&gt; Int</span>
+<span class=hs-linenum>108: </span>  <a class=annot href="#"><span class=annottext>(JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])
+-&gt; GHC.Types.Int</span><span class='hs-varid'>value</span></a> <span class='hs-conid'>Empty</span> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>x1:GHC.Prim.Int# -&gt; {v : GHC.Types.Int | v == (x1  :  int)}</span><span class='hs-num'>0</span></a>
+<span class=hs-linenum>109: </span>  <span class='hs-varid'>value</span> <span class='hs-varid'>j</span>     <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>Scrabble.Score -&gt; GHC.Types.Int</span><span class='hs-varid'>getScore</span></a> <a class=annot href="#"><span class=annottext>(Scrabble.Score -&gt; GHC.Types.Int)
+-&gt; ((Scrabble.Score, Sized.Size) -&gt; Scrabble.Score)
+-&gt; (Scrabble.Score, Sized.Size)
+-&gt; exists [Scrabble.Score].GHC.Types.Int</span><span class='hs-varop'>.</span></a> <a class=annot href="#"><span class=annottext>(Scrabble.Score, Sized.Size) -&gt; Scrabble.Score</span><span class='hs-varid'>fst</span></a> <a class=annot href="#"><span class=annottext>((Scrabble.Score, Sized.Size) -&gt; GHC.Types.Int)
+-&gt; (Scrabble.Score, Sized.Size) -&gt; GHC.Types.Int</span><span class='hs-varop'>$</span></a> <a class=annot href="#"><span class=annottext>(JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])
+-&gt; (Scrabble.Score, Sized.Size)</span><span class='hs-varid'>tag</span></a> <a class=annot href="#"><span class=annottext>(JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])</span><span class='hs-varid'>j</span></a>
+<span class=hs-linenum>110: </span>
+<span class=hs-linenum>111: </span>
+<span class=hs-linenum>112: </span><span class='hs-definition'>main</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>IO</span> <span class='hs-conid'>()</span>
+<span class=hs-linenum>113: </span><a class=annot href="#"><span class=annottext>(GHC.Types.IO ())</span><span class='hs-definition'>main</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>(Buffer.Buffer (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char]))</span><span class='hs-varid'>runEditor</span></a> <a class=annot href="#"><span class=annottext>(Editor.Editor (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char]) ())</span><span class='hs-varid'>editor</span></a> <a class=annot href="#"><span class=annottext>{v : (JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char]) | v == buffer}</span><span class='hs-varid'>buffer</span></a>
+<span class=hs-linenum>114: </span>  <span class='hs-keyword'>where</span>
+<span class=hs-linenum>115: </span>    <span class='hs-comment'>-- Reify</span>
+<span class=hs-linenum>116: </span>    <span class='hs-varid'>buffer</span> <span class='hs-keyglyph'>::</span> <span class='hs-conid'>JoinList</span> <span class='hs-layout'>(</span><span class='hs-conid'>Score</span><span class='hs-layout'>,</span> <span class='hs-conid'>Size</span><span class='hs-layout'>)</span> <span class='hs-conid'>String</span>
+<span class=hs-linenum>117: </span>    <a class=annot href="#"><span class=annottext>(JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])</span><span class='hs-varid'>buffer</span></a> <span class='hs-keyglyph'>=</span> <a class=annot href="#"><span class=annottext>(JoinList.JoinList (Scrabble.Score, Sized.Size) [GHC.Types.Char])</span><span class='hs-conid'>Empty</span></a>
+</pre>
+</body>
+</html>

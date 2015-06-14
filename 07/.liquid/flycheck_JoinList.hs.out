@@ -1,0 +1,67 @@
+UNSAFE
+ /Users/matt/Dropbox/cis194/07/flycheck_JoinList.hs:51:34: Error: Liquid Type Mismatch
+   Inferred type
+     VV : Int | VV == ?a
+  
+   not a subtype of Required type
+     VV : Int | VV >= 0 && VV < ?a
+  
+   In Context
+     VV : Int | VV == ?a
+     ?a : Int
+ /Users/matt/Dropbox/cis194/07/flycheck_JoinList.hs:52:35-43: Error: Liquid Type Mismatch
+   Inferred type
+     VV : Int | VV == ?c && VV == ?b - ?a
+  
+   not a subtype of Required type
+     VV : Int | VV >= 0 && VV < ?b
+  
+   In Context
+     VV : Int | VV == ?c && VV == ?b - ?a
+     ?a : Int
+     ?c : Int | ?c == ?b - ?a
+     ?b : Int
+ /Users/matt/Dropbox/cis194/07/flycheck_JoinList.hs:58:23: Error: Liquid Type Mismatch
+   Inferred type
+     VV : Int | VV == i
+  
+   not a subtype of Required type
+     VV : Int | VV >= 0 && VV < i
+  
+   In Context
+     VV : Int | VV == i
+     i  : Int
+ /Users/matt/Dropbox/cis194/07/flycheck_JoinList.hs:59:24-32: Error: Liquid Type Mismatch
+   Inferred type
+     VV : Int | VV == ?b && VV == i - ?a
+  
+   not a subtype of Required type
+     VV : Int | VV >= 0 && VV < i
+  
+   In Context
+     VV : Int | VV == ?b && VV == i - ?a
+     i  : Int
+     ?a : Int
+     ?b : Int | ?b == i - ?a
+ /Users/matt/Dropbox/cis194/07/flycheck_JoinList.hs:65:23: Error: Liquid Type Mismatch
+   Inferred type
+     VV : Int | VV == i
+  
+   not a subtype of Required type
+     VV : Int | VV >= 0 && VV < i
+  
+   In Context
+     VV : Int | VV == i
+     i  : Int
+ /Users/matt/Dropbox/cis194/07/flycheck_JoinList.hs:66:30-38: Error: Liquid Type Mismatch
+   Inferred type
+     VV : Int | VV == ?b && VV == i - ?a
+  
+   not a subtype of Required type
+     VV : Int | VV >= 0 && VV < i
+  
+   In Context
+     VV : Int | VV == ?b && VV == i - ?a
+     i  : Int
+     ?a : Int
+     ?b : Int | ?b == i - ?a
